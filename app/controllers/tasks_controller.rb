@@ -26,8 +26,17 @@ class TasksController < ApplicationController
 
   def update
     task = Task.find(params[:id])
-    task.update(task_params)
-    redirect_to task_path(task)
+    if task.update(task_params)
+      redirect_to tasks_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    task = Task.find(params[:id])
+    task.destroy
+    redirect_to tasks_path, status: :see_other
   end
 
   private
